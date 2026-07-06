@@ -1,11 +1,11 @@
 const projects = [
   {
-    title: "Project 1",
+    title: "AI Survival Guide Wikipedia",
     // Replace this with your first video's regular YouTube URL.
     youtubeUrl: "https://www.youtube.com/watch?v=M7lc1UVf-VE",
   },
   {
-    title: "Project 2",
+    title: "AI Foodie Consultant",
     // Replace this with your second project's regular YouTube URL.
     youtubeUrl: "https://www.youtube.com/watch?v=M7lc1UVf-VE",
   },
