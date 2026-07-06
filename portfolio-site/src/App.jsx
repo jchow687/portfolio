@@ -1,13 +1,13 @@
 const projects = [
   {
     title: "Project 1",
-    // Replace this URL with your first YouTube demo link.
-    href: "https://www.youtube.com/",
+    // Replace this with your first video's regular YouTube URL.
+    youtubeUrl: "https://www.youtube.com/watch?v=M7lc1UVf-VE",
   },
   {
-    title: "Project 3",
-    // Replace this URL with your third project's YouTube demo link.
-    href: "https://www.youtube.com/",
+    title: "Project 2",
+    // Replace this with your second project's regular YouTube URL.
+    youtubeUrl: "https://www.youtube.com/watch?v=M7lc1UVf-VE",
   },
 ];
 
@@ -16,7 +16,29 @@ const clippedCorners = {
     "polygon(12px 0, calc(100% - 12px) 0, 100% 12px, 100% calc(100% - 12px), calc(100% - 12px) 100%, 12px 100%, 0 calc(100% - 12px), 0 12px)",
 };
 
-function ProjectCard({ title, href }) {
+function getYouTubeEmbedUrl(youtubeUrl) {
+  try {
+    const url = new URL(youtubeUrl);
+    const isShortUrl = url.hostname === "youtu.be";
+    const pathParts = url.pathname.split("/").filter(Boolean);
+    const videoId = isShortUrl
+      ? pathParts[0]
+      : url.searchParams.get("v") ||
+        (pathParts[0] === "shorts" || pathParts[0] === "embed"
+          ? pathParts[1]
+          : "");
+
+    return videoId
+      ? `https://www.youtube-nocookie.com/embed/${encodeURIComponent(videoId)}?rel=0`
+      : "";
+  } catch {
+    return "";
+  }
+}
+
+function ProjectCard({ title, youtubeUrl }) {
+  const embedUrl = getYouTubeEmbedUrl(youtubeUrl);
+
   return (
     <article className="group relative rounded-sm drop-shadow-[0_0_14px_rgba(255,255,255,0.16)] transition duration-500 hover:drop-shadow-[0_0_24px_rgba(255,255,255,0.32)]">
       <div
@@ -35,29 +57,15 @@ function ProjectCard({ title, href }) {
             {title}
           </h2>
 
-          <a
-            className="mt-6 inline-flex items-center gap-3 border-b border-white/50 pb-1 text-base text-white/70 transition duration-300 hover:border-white hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-8 focus-visible:outline-white"
-            href={href}
-            target="_blank"
-            rel="noreferrer"
-            aria-label={`Watch the YouTube demo for ${title}`}
-          >
-            View demo on YouTube
-            <svg
-              aria-hidden="true"
-              className="h-5 w-5 transition-transform duration-300 group-hover:translate-x-1"
-              viewBox="0 0 24 24"
-              fill="none"
-            >
-              <path
-                d="M5 12h14m-5-5 5 5-5 5"
-                stroke="currentColor"
-                strokeWidth="1.5"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
-          </a>
+          <iframe
+            className="mt-5 aspect-video w-full max-w-md border border-white/30 bg-black shadow-[0_0_18px_rgba(255,255,255,0.08)]"
+            src={embedUrl}
+            title={`${title} YouTube demo`}
+            loading="lazy"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            referrerPolicy="strict-origin-when-cross-origin"
+            allowFullScreen
+          />
         </div>
       </div>
     </article>
@@ -93,10 +101,7 @@ function App() {
           </h1>
         </header>
 
-        <section
-          className="grid gap-6 sm:gap-8"
-          aria-label="Featured projects"
-        >
+        <section className="grid gap-6 sm:gap-8" aria-label="Featured projects">
           {projects.map((project) => (
             <ProjectCard key={project.title} {...project} />
           ))}
