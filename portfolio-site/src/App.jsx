@@ -1,12 +1,17 @@
 const projects = [
   {
-    title: "AI Survival Guide Wikipedia",
+    title: "Somatic Gauge & Brain Analyzer",
     // Replace this with your first video's regular YouTube URL.
     youtubeUrl: "https://www.youtube.com/watch?v=M7lc1UVf-VE",
   },
   {
     title: "AI Foodie Consultant",
     // Replace this with your second project's regular YouTube URL.
+    youtubeUrl: "https://www.youtube.com/watch?v=M7lc1UVf-VE",
+  },
+  {
+    title: "AI Survival Guide Wikipedia",
+    // Replace this with your third project's regular YouTube URL.
     youtubeUrl: "https://www.youtube.com/watch?v=M7lc1UVf-VE",
   },
 ];
